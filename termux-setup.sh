@@ -14,10 +14,10 @@ if ! [[ -f ~/.sec.key ]]; then
   exit 1
 fi
 
-# apt
-apk update -y
-apk upgrade -y
-apk install -y \
+# pkg
+pkg update -y
+pkg upgrade -y
+pkg install -y \
   curl ca-certificates ffmpeg git \
   imagemagick jq \
   pinentry-tty pkg-config unar w3m wget zsh
