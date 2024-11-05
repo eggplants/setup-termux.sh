@@ -27,12 +27,17 @@ pkg install -y \
 # import key
 gpg --list-keys | grep -q 8117 || {
   export GPG_TTY="$(tty)"
+  export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
   echo "pinentry-program $(which pinentry-tty)" > ~/.gnupg/gpg-agent.conf
+  echo enable-ssh-support >> ~/.gnupg/gpg-agent.conf
+  touch ~/.gnupg/sshcontrol
   chmod 600 ~/.gnupg/*
   chmod 700 ~/.gnupg
   gpgconf --kill gpg-agent
   sleep 3s
   cat ~/.sec.key | gpg --allow-secret-key --import
+  gpg --list-key --with-keygrip | grep -FA1 '[SA]' | awk -F 'Keygrip = ' '$0=$2' > ~/.gnupg/sshcontrol
+  gpg-connect-agent updatestartuptty /bye
 }
 
 # nanorc
@@ -85,6 +90,8 @@ zinit light zdharma-continuum/fast-syntax-highlighting
 zinit light zdharma-continuum/history-search-multi-word
 zinit light zsh-users/zsh-autosuggestions
 zinit light zsh-users/zsh-completions
+zinit ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh'
+zinit light sindresorhus/pure
 
 # if (which zprof > /dev/null) ;then
 #   zprof | less
@@ -149,7 +156,12 @@ zstyle ':completion:*:default' list-colors "${(s.:.)LS_COLORS}"
 
 export PATH="$PATH:$HOME/.local/bin"
 
-export GPG_TTY="$(tty)"
+unset SSH_AGENT_PID
+if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+  export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+fi
+export GPG_TTY=$(tty)
+gpg-connect-agent updatestartuptty /bye >/dev/null
 
 A
 
