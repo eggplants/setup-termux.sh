@@ -2,6 +2,8 @@
 
 set -eux
 
+[[ -d ~/storage ]] || termux-setup-storage
+
 cd ~
 mkdir -p .config
 mkdir -p .gnupg
@@ -18,9 +20,9 @@ fi
 pkg update -y
 pkg upgrade -y
 pkg install -y \
-  curl ca-certificates ffmpeg git \
+  curl ca-certificates ffmpeg git gnupg gh \
   imagemagick jq \
-  pinentry-tty pkg-config unar w3m wget zsh
+  pinentry pkg-config unar which w3m wget zsh
 
 # import key
 gpg --list-keys | grep -q 8117 || {
@@ -31,7 +33,6 @@ gpg --list-keys | grep -q 8117 || {
   gpgconf --kill gpg-agent
   sleep 3s
   cat ~/.sec.key | gpg --allow-secret-key --import
-  pass init "$(gpg --with-colons --list-keys | awk -F: '$1=="fpr"{print$10;exit}')"
 }
 
 # nanorc
@@ -55,136 +56,22 @@ set statuscolor white,green
 A
 
 # mise
-curl https://mise.run | sh
-echo 'eval "$(/usr/local/bin/mise activate bash)"' >>~/.bashrc
-echo 'eval "$(/usr/local/bin/mise activate zsh)"' >>~/.zshrc
-eval "$(/usr/local/bin/mise activate zsh)"
-
-# python
-[[ -d ~/.pyenv ]] || {
-  mise use --global python@latest
-  pip install pipx
-  pipx ensurepath
-  export PATH="$HOME/.local/bin:$PATH"
-  pipx install getjump poetry yt-dlp
-  poetry self add poetry-version-plugin
-}
-
-# ruby
-[[ -d ~/.rbenv ]] || {
-  mise use --global ruby@latest
-}
-
-# node
-command -v node 2>/dev/null || {
-  mise use --global node@latest
-}
-
-# rust
-curl 'https://sh.rustup.rs' | sh -s -- -y
-source ~/.cargo/env
-
-# starship
-[[ -f ~/.config/starship.toml ]] || {
-  curl -sS 'https://starship.rs/install.sh' | sh -s -- -y
-  echo 'eval "$(starship init bash)"' >> ~/.bashrc
-  echo 'eval "$(starship init zsh)"' >> ~/.zshrc
-  cat <<'A'>>~/.config/starship.toml
-"$schema" = 'https://starship.rs/config-schema.json'
-
-add_newline = false
-
-format = '''\[\[\[${username}@${hostname}:\(${time}\):${directory}:${memory_usage}\]\]\] $package
-->>> '''
-
-right_format = '$git_status$git_branch$git_commit$git_state'
-
-[character]
-success_symbol = "[>](bold green)"
-error_symbol = "[✗](bold red)"
-
-[username]
-disabled = false
-style_user = "red bold"
-style_root = "red bold"
-format = '[$user]($style)'
-show_always = true
-
-[hostname]
-disabled = false
-ssh_only = false
-style = "bold blue"
-format = '[$hostname]($style)'
-
-[time]
-disabled = false
-format = '[$time]($style)'
-
-[directory]
-# truncation_length = 10
-truncation_symbol = '…/'
-format = '[$path]($style)[$read_only]($read_only_style)'
-# truncate_to_repo = false
-
-[memory_usage]
-disabled = false
-threshold = -1
-style = "bold dimmed green"
-format = "[$ram_pct]($style)"
-
-[package]
-disabled = false
-format = '[$symbol$version]($style)'
-A
-}
-
-# go
-command -v go 2>/dev/null || {
-  mise use --global go@latest
-}
-
-# clisp
-command -v ros 2>/dev/null || {
-  curl -s 'https://api.github.com/repos/roswell/roswell/releases/latest' |
-    grep -oEm1 'https://.*_amd64.deb' | xargs wget
-  sudo apt install ./roswell_*_amd64.deb
-  ros install sbcl-bin
-}
+# curl https://mise.run | sh
+# echo 'eval "$(/usr/local/bin/mise activate bash)"' >>~/.bashrc
+# echo 'eval "$(/usr/local/bin/mise activate zsh)"' >>~/.zshrc
+# eval "$(/usr/local/bin/mise activate zsh)"
 
 # git
 [[ -f ~/.gitconfig ]] || {
-  echo -n "github token?> "
-  # Copy generated fine-grained PAT and paste.
-  # Required permission: Gist, Contents
-  # https://github.com/settings/tokens
-  read -s -r token
-  cat <<A >>~/.netrc
-machine github.com
-login eggplants
-password ${token}
-machine gist.github.com
-login eggplants
-password ${token}
-A
-  netrc_helper_path="$(
-    readlink /usr/local/bin/git -f | sed 's;/bin/git;;'
-  )/share/git-core/contrib/credential/netrc/git-credential-netrc.perl"
-  git_email="$(
-    gpg --list-keys | grep -Em1 '^uid' |
-      rev | cut -f1 -d ' ' | tr -d '<>' | rev
-  )"
-  # gpg -e -r "$git_email" ~/.netrc
-  # rm ~/.netrc
-  sudo chmod +x "$netrc_helper_path"
+  gh auth login
   git config --global commit.gpgsign true
   git config --global core.editor nano
-  git config --global credential.helper "$netrc_helper_path"
   git config --global gpg.program "$(which gpg)"
   git config --global help.autocorrect 1
   git config --global pull.rebase false
   git config --global push.autoSetupRemote true
   git config --global rebase.autosquash true
-  git config --global user.email "$git_email"
+  git config --global user.email "w10776e8w@yahoo.co.jp"
   git config --global user.name eggplants
   git config --global user.signingkey "$(
     gpg --list-secret-keys | tac | grep -m1 -B1 '^sec' | head -1 | awk '$0=$1'
@@ -266,7 +153,7 @@ export GPG_TTY="$(tty)"
 
 A
 
-cat ~/.zshrc >>.zshrc.tmp
+[[ -f ~/.zshrc ]] && cat ~/.zshrc >>.zshrc.tmp
 mv .zshrc.tmp ~/.zshrc
 
 cat <<'A' >.zshenv.tmp
