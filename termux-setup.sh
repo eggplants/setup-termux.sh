@@ -181,7 +181,3 @@ mv .zshenv.tmp ~/.zshenv
 rm ~/.sec.key
 popd
 rm -rf _setup
-
-termux-setup-storage
-
-reboot
