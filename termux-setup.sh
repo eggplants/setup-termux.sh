@@ -92,7 +92,7 @@ zinit light zsh-users/zsh-completions
 A
 
 # zsh
-[[ "$SHELL" = "$(which zsh)" ]] || chsh -s "$(which zsh)"
+[[ "$SHELL" =~ 'zsh$' ]] || chsh -s zsh
 cat <<'A' >.zshrc.tmp
 #!/usr/bin/env zsh
 
