@@ -4,6 +4,8 @@ set -eux
 
 [[ -d ~/storage ]] || termux-setup-storage
 
+touch .hushlogin
+
 cd ~
 mkdir -p .config
 mkdir -p .gnupg
