@@ -28,6 +28,7 @@ pkg install -y \
   imagemagick \
   jq \
   pinentry pkg-config \
+  termux-api \
   unar \
   which wget w3m \
   zsh
