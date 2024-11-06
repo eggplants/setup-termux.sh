@@ -22,9 +22,15 @@ fi
 pkg update -y
 pkg upgrade -y
 pkg install -y \
-  curl ca-certificates ffmpeg git gnupg gh \
-  imagemagick jq \
-  pinentry pkg-config unar which w3m wget zsh
+  ca-certificates curl \
+  ffmpeg \
+  git gnupg gh \
+  imagemagick \
+  jq \
+  pinentry pkg-config \
+  unar \
+  which wget w3m \
+  zsh
 
 # import key
 gpg --list-keys | grep -q EE38 || {
