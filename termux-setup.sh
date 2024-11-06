@@ -27,7 +27,7 @@ pkg install -y \
   pinentry pkg-config unar which w3m wget zsh
 
 # import key
-gpg --list-keys | grep -q 8117 || {
+gpg --list-keys | grep -q EE38 || {
   export GPG_TTY="$(tty)"
   export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
   echo "pinentry-program $(which pinentry-tty)" > ~/.gnupg/gpg-agent.conf
