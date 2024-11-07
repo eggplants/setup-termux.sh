@@ -177,11 +177,8 @@ cat <<'A' >.zshenv.tmp
 
 # zmodload zsh/zprof && zprof
 A
-
-if [[ -f ~/.zshenv ]]; then
-  cat ~/.zshenv >>.zshenv.tmp
-  mv .zshenv.tmp ~/.zshenv
-fi
+[[ -f ~/.zshenv ]] && cat ~/.zshenv >>.zshenv.tmp
+mv .zshenv.tmp ~/.zshenv
 
 rm ~/.sec.key
 popd
