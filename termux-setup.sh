@@ -183,3 +183,5 @@ mv .zshenv.tmp ~/.zshenv
 rm ~/.sec.key
 popd
 rm -rf _setup
+
+echo 'Done. Please run `exit` and relaunch app.'
