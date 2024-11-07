@@ -22,6 +22,7 @@ fi
 pkg update -y
 pkg upgrade -y
 pkg install -y \
+  android-tools \
   ca-certificates curl \
   ffmpeg \
   git gnupg gh \
@@ -68,12 +69,6 @@ set numbercolor white,blue
 set selectedcolor white,green
 set statuscolor white,green
 A
-
-# mise
-# curl https://mise.run | sh
-# echo 'eval "$(/usr/local/bin/mise activate bash)"' >>~/.bashrc
-# echo 'eval "$(/usr/local/bin/mise activate zsh)"' >>~/.zshrc
-# eval "$(/usr/local/bin/mise activate zsh)"
 
 # git
 [[ -f ~/.gitconfig ]] || {
