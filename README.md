@@ -1,6 +1,6 @@
 # My Termux setup for mobile git / ssh client
 
-After [Termux](https://termux.dev):
+After [Termux](https://termux.dev) installed:
 
 ```bash
 termux-setup-storage
