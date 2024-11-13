@@ -3,7 +3,7 @@
 After [Termux](https://termux.dev) installed:
 
 ```bash
-# select `Single mirror` > `Mirrors in Asia` to make `pkg` faster
+# select `Single mirror` > `default` to make `pkg` faster
 termux-change-mirror
 
 # enable to access local storage
