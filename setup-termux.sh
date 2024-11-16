@@ -29,6 +29,7 @@ pkg install -y \
   imagemagick \
   jq \
   pinentry pkg-config \
+  sheldon \
   termux-api \
   unar \
   which wget w3m \
@@ -87,15 +88,16 @@ A
   )"
 }
 
-# zinit
-curl -s https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh | bash
+# sheldon
+sheldon init --shell zsh <<<y
+sheldon add --github zdharma/fast-syntax-highlighting fast-syntax-highlighting
+sheldon add --github zdharma-continuum/history-search-multi-word history-search-multi-word
+sheldon add --github zsh-users/zsh-autosuggestions zsh-autosuggestions
+sheldon add --github zsh-users/zsh-completions zsh-completions
+sheldon add pure --github sindresorhus/pure --use async.zsh pure.zsh
+
 cat <<'A' >>~/.zshrc
-zinit light zdharma-continuum/fast-syntax-highlighting
-zinit light zdharma-continuum/history-search-multi-word
-zinit light zsh-users/zsh-autosuggestions
-zinit light zsh-users/zsh-completions
-zinit ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh'
-zinit light sindresorhus/pure
+eval "$(sheldon source)"
 
 # if (which zprof > /dev/null) ;then
 #   zprof | less
