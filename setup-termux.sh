@@ -36,7 +36,7 @@ pkg install -y \
   zsh
 
 # import key
-gpg --list-keys | grep -q EE38 || {
+if ! gpg --list-keys | grep -qE '^ *EE3A'; then
   export GPG_TTY="$(tty)"
   export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
   echo "pinentry-program $(which pinentry-tty)" > ~/.gnupg/gpg-agent.conf
@@ -49,7 +49,7 @@ gpg --list-keys | grep -q EE38 || {
   cat ~/.sec.key | gpg --allow-secret-key --import
   gpg --list-key --with-keygrip | grep -FA1 '[SA]' | awk -F 'Keygrip = ' '$0=$2' > ~/.gnupg/sshcontrol
   gpg-connect-agent updatestartuptty /bye
-}
+fi
 
 # nanorc
 [[ -d ~/.nano ]] || {
