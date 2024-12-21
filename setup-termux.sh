@@ -25,15 +25,21 @@ pkg install -y \
   android-tools \
   ca-certificates curl \
   ffmpeg \
-  git gnupg gh \
+  git gnupg golang gh \
   imagemagick \
   jq \
   pinentry pkg-config \
+  rust \
   sheldon \
   termux-api \
   unar \
   which wget w3m \
   zsh
+
+# termscp
+cargo install \
+  --locked --no-default-features \
+  --features with-keyring termscp
 
 # import key
 if ! gpg --list-keys | grep -qE '^ *EE3A'; then
@@ -165,6 +171,8 @@ export LS_COLORS='di=36;40:ln=35;40:so=32;40:pi=33;40:ex=31;40:bd=34;46:cd=34;43
 zstyle ':completion:*:default' list-colors "${(s.:.)LS_COLORS}"
 
 export PATH="$PATH:$HOME/.local/bin"
+export PATH="$PATH:$HOME/go/bin"
+export PATH="$PATH:$HOME/.cargo/bin"
 
 unset SSH_AGENT_PID
 if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
