@@ -52,7 +52,7 @@ if ! gpg --list-keys | grep -qE '^ *EE3A'; then
   chmod 700 ~/.gnupg
   gpgconf --kill gpg-agent
   sleep 3s
-  cat ~/.sec.key | gpg --allow-secret-key --import
+  gpg --allow-secret-key --import ~/.sec.key
   gpg --list-key --with-keygrip | grep -FA1 '[SA]' | awk -F 'Keygrip = ' '$0=$2' > ~/.gnupg/sshcontrol
   gpg-connect-agent updatestartuptty /bye
 fi
