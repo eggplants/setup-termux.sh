@@ -4,7 +4,7 @@ After [Termux](https://termux.dev) installed:
 
 ```bash
 # select `Single mirror` > `default` to make `pkg` faster
-termux-change-mirror
+termux-change-repo
 
 # enable to access local storage
 termux-setup-storage
