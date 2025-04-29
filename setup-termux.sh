@@ -79,6 +79,7 @@ A
 # git
 [[ -f ~/.gitconfig ]] || {
   gh auth login -p https -h gitHub.com -w <<<y
+  gh auth setup-git
   git config --global commit.gpgsign true
   git config --global core.editor nano
   git config --global gpg.program "$(which gpg)"
