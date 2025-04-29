@@ -23,23 +23,22 @@ pkg update -y
 pkg upgrade -y
 pkg install -y \
   android-tools \
-  ca-certificates curl \
+  ca-certificates cmake curl \
   ffmpeg \
   git gnupg golang gh \
   imagemagick \
   jq \
-  pinentry pkg-config \
+  make \
+  perl pinentry pkg-config \
   rust \
-  sheldon \
+  samba sheldon \
   termux-api \
   unar \
   which wget w3m \
   zsh
 
 # termscp
-# cargo install \
-#   --locked --no-default-features \
-#   --features with-keyring termscp
+cargo install termscp
 
 # import key
 if ! gpg --list-keys | grep -qE '^ *EE3A'; then
