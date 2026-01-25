@@ -178,6 +178,7 @@ zstyle ':completion:*:default' list-colors "${(s.:.)LS_COLORS}"
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/go/bin"
 export PATH="$PATH:$HOME/.cargo/bin"
+export ANDROID_API_LEVEL="$(getprop ro.build.version.sdk)"
 
 unset SSH_AGENT_PID
 if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
