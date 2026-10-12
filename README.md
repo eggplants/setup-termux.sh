@@ -1,4 +1,4 @@
-# My Termux setup
+# Moved 👉 [`eggplants/mise-bootstrap`](https://github.com/eggplants/mise-bootstrap)
 
 ## Run
 
