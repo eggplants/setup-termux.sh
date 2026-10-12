@@ -1,0 +1,9 @@
+# ~/.zshenv — managed by mise dotfiles (~/.config/mise/dotfiles/zshenv)
+
+# zmodload zsh/zprof && zprof
+
+typeset -U path PATH
+path=("$HOME/.local/bin" $path "$HOME/go/bin" "$HOME/.cargo/bin")
+
+export EDITOR=nano
+export ANDROID_API_LEVEL="$(getprop ro.build.version.sdk 2>/dev/null)"

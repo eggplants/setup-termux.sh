@@ -1,0 +1,27 @@
+#!/data/data/com.termux/files/usr/bin/bash
+#MISE description="Import the GPG secret key from ~/.sec.key and enable the GPG SSH agent"
+#MISE raw=true
+set -euo pipefail
+
+install -d -m 700 ~/.gnupg
+
+if gpg --list-secret-keys 2>/dev/null | grep -qE '^ *EE3A'; then
+  exit 0
+fi
+if [[ ! -f ~/.sec.key ]]; then
+  echo "setup:gpg: skipped (place your GPG secret key at ~/.sec.key and re-run)" >&2
+  exit 0
+fi
+
+GPG_TTY="$(tty)"
+export GPG_TTY
+gpgconf --kill gpg-agent
+gpg --import ~/.sec.key
+
+# keygrips of the keys with the authenticate capability
+gpg --with-colons --with-keygrip --list-secret-keys |
+  awk -F: '$1=="sec"||$1=="ssb"{auth=($12~/a/)} $1=="grp"&&auth{print $10; auth=0}' > ~/.gnupg/sshcontrol
+chmod 600 ~/.gnupg/sshcontrol
+gpg-connect-agent updatestartuptty /bye >/dev/null
+
+rm ~/.sec.key

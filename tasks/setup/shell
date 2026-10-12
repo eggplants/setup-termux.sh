@@ -1,0 +1,5 @@
+#!/data/data/com.termux/files/usr/bin/bash
+#MISE description="Set zsh as the Termux login shell (~/.termux/shell)"
+set -euo pipefail
+
+[[ "$(readlink ~/.termux/shell 2>/dev/null)" == "$PREFIX/bin/zsh" ]] || chsh -s zsh

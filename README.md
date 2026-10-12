@@ -1,4 +1,6 @@
-# My Termux setup for mobile git / ssh client
+# My Termux setup
+
+## Run
 
 After [Termux](https://termux.dev) installed:
 
@@ -13,10 +15,17 @@ termux-setup-storage
 mv ~/storage/downloads/sec ~/.sec.key
 
 # setup
-curl -sL 'https://raw.githubusercontent.com/eggplants/setup-termux.sh/refs/heads/master/setup-termux.sh' | bash
+bash <(curl -fsSL 'https://raw.githubusercontent.com/eggplants/setup-termux.sh/refs/heads/master/bootstrap.sh')
 ```
 
-![1000000073](https://github.com/user-attachments/assets/f7552932-629c-49f8-a989-7ac5ed82f5c5)
+## Update
+
+```bash
+mise bootstrap --dry-run
+mise bootstrap
+mise bootstrap --update
+mise bootstrap status
+```
 
 ## Family
 

@@ -1,0 +1,62 @@
+[settings]
+cargo.binstall = false
+
+[tools]
+"cargo:termscp" = "latest"
+
+# "pkg:" is the Termux package manager plugin in plugins/pkg, linked by bootstrap.sh
+[bootstrap.packages]
+"pkg:android-tools" = "latest"
+"pkg:ca-certificates" = "latest"
+"pkg:cmake" = "latest"
+"pkg:curl" = "latest"
+"pkg:dbus" = "latest"
+"pkg:ffmpeg" = "latest"
+"pkg:git" = "latest"
+"pkg:gnupg" = "latest"
+"pkg:golang" = "latest"
+"pkg:gh" = "latest"
+"pkg:imagemagick" = "latest"
+"pkg:jq" = "latest"
+"pkg:make" = "latest"
+"pkg:nano" = "latest"
+"pkg:perl" = "latest"
+"pkg:pinentry" = "latest"
+"pkg:pkg-config" = "latest"
+"pkg:rust" = "latest"
+"pkg:samba" = "latest"
+"pkg:termux-api" = "latest"
+"pkg:unar" = "latest"
+"pkg:which" = "latest"
+"pkg:wget" = "latest"
+"pkg:w3m" = "latest"
+"pkg:zsh" = "latest"
+
+[bootstrap.repos]
+"~/.local/share/zsh/plugins/pure" = { url = "https://github.com/sindresorhus/pure" }
+"~/.local/share/zsh/plugins/zsh-autosuggestions" = { url = "https://github.com/zsh-users/zsh-autosuggestions" }
+"~/.local/share/zsh/plugins/zsh-completions" = { url = "https://github.com/zsh-users/zsh-completions" }
+"~/.local/share/zsh/plugins/fast-syntax-highlighting" = { url = "https://github.com/zdharma-continuum/fast-syntax-highlighting" }
+"~/.local/share/zsh/plugins/history-search-multi-word" = { url = "https://github.com/zdharma-continuum/history-search-multi-word" }
+"~/.local/share/nano-highlight" = { url = "https://github.com/serialhex/nano-highlight" }
+
+[dotfiles]
+"~/.hushlogin" = { source = "dotfiles/hushlogin" }
+"~/.zshenv" = { source = "dotfiles/zshenv" }
+"~/.zshrc" = { source = "dotfiles/zshrc" }
+"~/.gitconfig" = { source = "dotfiles/gitconfig" }
+"~/.nanorc" = { source = "dotfiles/nanorc" }
+"~/.gnupg/gpg-agent.conf" = { source = "dotfiles/gnupg/gpg-agent.conf", mode = "copy", permissions = "0600" }
+
+[bootstrap.mise_shell_activate]
+zsh = true
+bash = true
+
+# mise installs [tools] before plugin packages; cargo: tools need rust, perl,
+# make, pkg-config, samba (smbclient) and dbus from pkg first
+[bootstrap.hooks]
+pre-tools = "mise bootstrap packages apply --yes"
+
+[tasks.bootstrap]
+description = "Run imperative setup steps after the declarative bootstrap"
+run = [{ task = "setup:shell" }, { task = "setup:storage" }, { task = "setup:gpg" }, { task = "setup:git" }]
